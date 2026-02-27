@@ -11,6 +11,36 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 }
 
 /* =========================
+   STOCK UPDATE (ADMIN ONLY)
+========================= */
+if (isset($_POST['action'], $_POST['product_id'])) {
+
+    $product_id = (int)$_POST['product_id'];
+
+    if ($_POST['action'] === 'add') {
+        mysqli_query(
+            $conn,
+            "UPDATE products SET quantity = quantity + 1 WHERE id = $product_id"
+        );
+    }
+
+    if ($_POST['action'] === 'less') {
+        mysqli_query(
+            $conn,
+            "UPDATE products 
+             SET quantity = CASE 
+                WHEN quantity > 0 THEN quantity - 1 
+                ELSE 0 
+             END
+             WHERE id = $product_id"
+        );
+    }
+
+    header("Location: products.php");
+    exit;
+}
+
+/* =========================
    FETCH PRODUCTS WITH USER NAME
 ========================= */
 $sql = "
@@ -50,6 +80,7 @@ body{background:#f4f6f9;font-family:'Segoe UI',sans-serif;}
 .card{border-radius:15px;}
 .low-stock{background:#dc3545;}
 .ok-stock{background:#198754;}
+.stock-btn{width:32px;height:32px;padding:0;}
 </style>
 </head>
 
@@ -89,6 +120,7 @@ body{background:#f4f6f9;font-family:'Segoe UI',sans-serif;}
     <th>Location</th>
     <th>Price</th>
     <th>Quantity</th>
+    <th>Stock Control</th>
     <th>Added By</th>
     <th>Created At</th>
 </tr>
@@ -112,12 +144,28 @@ while ($row = mysqli_fetch_assoc($result)):
             <?= $row['quantity'] ?>
         </span>
     </td>
+
+    <!-- STOCK CONTROL (ADMIN ONLY) -->
+    <td>
+        <form method="POST" class="d-inline">
+            <input type="hidden" name="product_id" value="<?= $row['id'] ?>">
+            <input type="hidden" name="action" value="add">
+            <button class="btn btn-success btn-sm stock-btn">+</button>
+        </form>
+
+        <form method="POST" class="d-inline">
+            <input type="hidden" name="product_id" value="<?= $row['id'] ?>">
+            <input type="hidden" name="action" value="less">
+            <button class="btn btn-warning btn-sm stock-btn">−</button>
+        </form>
+    </td>
+
     <td><?= htmlspecialchars($row['added_by_name'] ?? 'N/A') ?></td>
     <td><?= date("d M Y", strtotime($row['created_at'])) ?></td>
 </tr>
 <?php endwhile; else: ?>
 <tr>
-    <td colspan="9" class="text-center text-muted">No products found</td>
+    <td colspan="10" class="text-center text-muted">No products found</td>
 </tr>
 <?php endif; ?>
 
