@@ -126,6 +126,7 @@ body{
     <a href="dashboard.php"><i class="fa fa-home"></i> Home</a>
     <a href="add_user.php"><i class="fa fa-user-plus"></i> Add User</a>
     <a href="add_product.php"><i class="fa fa-box"></i> Add Product</a>
+    <a href="products.php"><i class="fa fa-box-open"></i> View Products</a>
     <a href="../login.php"><i class="fa fa-sign-out-alt"></i> Logout</a>
 
 </div>
