@@ -2,11 +2,34 @@
 session_start();
 include("../config/db.php");
 
-/* ADMIN ACCESS ONLY */
-if(!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin'){
+/* =========================
+   ADMIN ACCESS ONLY
+========================= */
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../index.php");
     exit;
 }
+
+/* =========================
+   FETCH PRODUCTS WITH USER NAME
+========================= */
+$sql = "
+    SELECT 
+        p.id,
+        p.product_name,
+        p.category,
+        p.model_no,
+        p.location,
+        p.price,
+        p.quantity,
+        p.created_at,
+        u.name AS added_by_name
+    FROM products p
+    LEFT JOIN users u ON u.id = p.added_by
+    ORDER BY p.created_at DESC
+";
+
+$result = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -41,14 +64,13 @@ body{background:#f4f6f9;font-family:'Segoe UI',sans-serif;}
     <a href="dashboard.php">Dashboard</a>
     <a class="active">Products</a>
     <a href="../logout.php">Logout</a>
-    
 </div>
 
 <!-- MAIN -->
 <div class="col-md-10 ms-auto">
 
 <div class="topbar d-flex justify-content-between align-items-center">
-    <h5>Product Inventory (View Only)</h5>
+    <h5>Product Inventory</h5>
     <span class="text-muted">Admin Panel</span>
 </div>
 
@@ -60,42 +82,49 @@ body{background:#f4f6f9;font-family:'Segoe UI',sans-serif;}
 <table class="table table-hover align-middle">
 <thead class="table-light">
 <tr>
-<th>#</th>
-<th>Product</th>
-<th>Category</th>
-<th>Model</th>
-<th>Price</th>
-<th>Stock</th>
-<th>Added By</th>
-<th>Created At</th>
+    <th>SN</th>
+    <th>Parts Number</th>
+    <th>Parts Name</th>
+    <th>Category</th>
+    <th>Location</th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Added By</th>
+    <th>Created At</th>
 </tr>
 </thead>
 <tbody>
 
 <?php
-$i=1;
-$res = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
-while($row = $res->fetch_assoc()):
+$sn = 1;
+if ($result && mysqli_num_rows($result) > 0):
+while ($row = mysqli_fetch_assoc($result)):
 ?>
 <tr>
-<td><?= $i++ ?></td>
-<td><?= htmlspecialchars($row['product_name']) ?></td>
-<td><?= htmlspecialchars($row['category']) ?></td>
-<td><?= htmlspecialchars($row['model_no']) ?></td>
-<td>₹<?= number_format($row['price'],2) ?></td>
-<td>
-<span class="badge <?= $row['quantity'] < 5 ? 'low-stock':'ok-stock' ?>">
-<?= $row['quantity'] ?>
-</span>
-</td>
-<td><?= htmlspecialchars($row['added_by']) ?></td>
-<td><?= date("d M Y", strtotime($row['created_at'])) ?></td>
+    <td><?= $sn++ ?></td>
+    <td><?= htmlspecialchars($row['model_no']) ?></td>
+    <td><?= htmlspecialchars($row['product_name']) ?></td>
+    <td><?= htmlspecialchars($row['category']) ?></td>
+    <td><?= htmlspecialchars($row['location']) ?></td>
+    <td>₹<?= number_format($row['price'], 2) ?></td>
+    <td>
+        <span class="badge <?= $row['quantity'] < 5 ? 'low-stock' : 'ok-stock' ?>">
+            <?= $row['quantity'] ?>
+        </span>
+    </td>
+    <td><?= htmlspecialchars($row['added_by_name'] ?? 'N/A') ?></td>
+    <td><?= date("d M Y", strtotime($row['created_at'])) ?></td>
 </tr>
-<?php endwhile; ?>
+<?php endwhile; else: ?>
+<tr>
+    <td colspan="9" class="text-center text-muted">No products found</td>
+</tr>
+<?php endif; ?>
 
 </tbody>
 </table>
 </div>
+
 </div>
 
 </div>
