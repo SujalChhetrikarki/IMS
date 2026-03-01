@@ -9,7 +9,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'sales') {
 }
 
 $msg = "";
-
 /* =========================
    HANDLE SALE
 ========================= */
