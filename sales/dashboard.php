@@ -7,7 +7,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'sales') {
     header("Location: ../index.php");
     exit;
 }
-
 $msg = "";
 /* =========================
    HANDLE SALE
