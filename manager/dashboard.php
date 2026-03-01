@@ -6,7 +6,6 @@ if(!isset($_SESSION['user_id']) || $_SESSION['role'] != 'manager'){
     header("Location: ../index.php");
     exit;
 }
-
 /* STOCK UPDATE */
 if(isset($_GET['action'], $_GET['id'])){
     $id = (int)$_GET['id'];
@@ -43,7 +42,6 @@ if(isset($_POST['import_csv']) && $_FILES['csv']['size'] > 0){
     fclose($file);
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,6 +73,7 @@ body{background:#f4f6f9;font-family:'Segoe UI',sans-serif;}
 <div class="col-md-2 sidebar d-none d-md-block">
     <h5 class="text-white mb-4">Meta EV</h5>
     <a class="active">Inventory</a>
+    <a href="add_product.php">Add Product</a>
     <a href="../logout.php">Logout</a>
 </div>
 
@@ -129,7 +128,7 @@ while($row = $res->fetch_assoc()):
 <td><?= htmlspecialchars($row['product_name']) ?></td>
 <td><?= htmlspecialchars($row['category']) ?></td>
 <td><?= htmlspecialchars($row['model_no']) ?></td>
-<td>₹<?= number_format($row['price'],2) ?></td>
+<td>Rs.<?= number_format($row['price'],2) ?></td>
 <td>
 <span class="badge <?= $row['quantity'] < 5 ? 'low-stock':'ok-stock' ?>">
 <?= $row['quantity'] ?>
