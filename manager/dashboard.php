@@ -2,19 +2,21 @@
 session_start();
 include("../config/db.php");
 
-if(!isset($_SESSION['user_id']) || $_SESSION['role'] != 'manager'){
+/* MANAGER ACCESS ONLY */
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'manager') {
     header("Location: ../index.php");
     exit;
 }
+
 /* STOCK UPDATE */
-if(isset($_GET['action'], $_GET['id'])){
+if (isset($_GET['action'], $_GET['id'])) {
     $id = (int)$_GET['id'];
 
-    if($_GET['action'] === 'add'){
+    if ($_GET['action'] === 'add') {
         $conn->query("UPDATE products SET quantity = quantity + 1 WHERE id=$id");
     }
 
-    if($_GET['action'] === 'less'){
+    if ($_GET['action'] === 'less') {
         $conn->query("UPDATE products SET quantity = GREATEST(quantity - 1, 0) WHERE id=$id");
     }
 
@@ -23,11 +25,11 @@ if(isset($_GET['action'], $_GET['id'])){
 }
 
 /* CSV IMPORT */
-if(isset($_POST['import_csv']) && $_FILES['csv']['size'] > 0){
+if (isset($_POST['import_csv']) && $_FILES['csv']['size'] > 0) {
     $file = fopen($_FILES['csv']['tmp_name'], "r");
     fgetcsv($file); // skip header
 
-    while(($row = fgetcsv($file)) !== false){
+    while (($row = fgetcsv($file)) !== false) {
         $stmt = $conn->prepare(
             "INSERT INTO products 
             (product_name, category, model_no, price, quantity, added_by)
@@ -35,13 +37,19 @@ if(isset($_POST['import_csv']) && $_FILES['csv']['size'] > 0){
         );
         $stmt->bind_param(
             "sssdis",
-            $row[0], $row[1], $row[2], $row[3], $row[4], $_SESSION['user_id']
+            $row[0],
+            $row[1],
+            $row[2],
+            $row[3],
+            $row[4],
+            $_SESSION['user_id']
         );
         $stmt->execute();
     }
     fclose($file);
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,7 +77,7 @@ body{background:#f4f6f9;font-family:'Segoe UI',sans-serif;}
 <div class="container-fluid">
 <div class="row">
 
-<!-- SIDEBAR (hidden on mobile) -->
+<!-- SIDEBAR -->
 <div class="col-md-2 sidebar d-none d-md-block">
     <h5 class="text-white mb-4">Meta EV</h5>
     <a class="active">Inventory</a>
@@ -119,22 +127,34 @@ body{background:#f4f6f9;font-family:'Segoe UI',sans-serif;}
 <tbody>
 
 <?php
-$i=1;
-$res = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
-while($row = $res->fetch_assoc()):
+$i = 1;
+
+/* 🔥 FIX: JOIN users table */
+$sql = "
+SELECT 
+    p.*,
+    u.name AS added_by_name
+FROM products p
+LEFT JOIN users u ON u.id = p.added_by
+ORDER BY p.created_at DESC
+";
+
+$res = $conn->query($sql);
+
+while ($row = $res->fetch_assoc()):
 ?>
 <tr>
 <td><?= $i++ ?></td>
 <td><?= htmlspecialchars($row['product_name']) ?></td>
 <td><?= htmlspecialchars($row['category']) ?></td>
 <td><?= htmlspecialchars($row['model_no']) ?></td>
-<td>Rs.<?= number_format($row['price'],2) ?></td>
+<td>Rs. <?= number_format($row['price'], 2) ?></td>
 <td>
-<span class="badge <?= $row['quantity'] < 5 ? 'low-stock':'ok-stock' ?>">
+<span class="badge <?= $row['quantity'] < 5 ? 'low-stock' : 'ok-stock' ?>">
 <?= $row['quantity'] ?>
 </span>
 </td>
-<td><?= $row['added_by'] ?></td>
+<td><?= htmlspecialchars($row['added_by_name'] ?? 'Unknown') ?></td>
 <td>
 <a href="?action=add&id=<?= $row['id'] ?>" class="btn btn-success btn-sm stock-btn">+</a>
 <a href="?action=less&id=<?= $row['id'] ?>" class="btn btn-warning btn-sm stock-btn">−</a>
