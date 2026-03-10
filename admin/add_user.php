@@ -24,6 +24,7 @@ if(isset($_POST['add'])){
 <html>
 <head>
 <title>Add User - Meta EV</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -32,88 +33,114 @@ if(isset($_POST['add'])){
 <style>
 
 body{
-    margin:0;
-    font-family:'Segoe UI',sans-serif;
-    background:#f4f6f9;
+margin:0;
+font-family:'Segoe UI', sans-serif;
+background:#f4f6f9;
 }
 
-/* Sidebar */
+/* Sidebar - Same as Admin Dashboard */
+
 .sidebar{
-    height:100vh;
-    width:250px;
-    position:fixed;
-    background:#000;
-    padding-top:20px;
+height:100vh;
+width:250px;
+position:fixed;
+background:#fff;
+padding-top:20px;
+border-right:1px solid #ddd;
 }
 
 .sidebar .logo{
-    width:120px;
-    display:block;
-    margin:0 auto 25px;
+width:120px;
+display:block;
+margin:0 auto 20px;
 }
 
 .sidebar a{
-    padding:14px 22px;
-    display:block;
-    color:#fff;
-    text-decoration:none;
-    background:#000;
-    border-left:4px solid transparent;
-    transition:0.3s;
+padding:12px 20px;
+display:block;
+color:#555;
+text-decoration:none;
+font-size:15px;
+transition:0.3s;
+}
+
+.sidebar a i{
+margin-right:10px;
 }
 
 .sidebar a:hover{
-    background:#111;
-    border-left:4px solid red;
+background:red;
+color:#fff;
 }
 
 .sidebar a.active{
-    background:#111;
-    border-left:4px solid red;
+background:red;
+color:#fff;
 }
 
-/* Main */
+/* Main Content */
+
 .main{
-    margin-left:250px;
-    padding:25px;
+margin-left:250px;
+padding:20px;
 }
 
-/* Card */
-.form-card{
-    background:#fff;
-    padding:30px;
-    border-radius:12px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+/* Topbar */
+
+.topbar{
+background:#fff;
+padding:15px 20px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+margin-bottom:20px;
 }
+
+/* Form Card */
+
+.form-card{
+background:#fff;
+padding:30px;
+border-radius:12px;
+box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* Button */
 
 .btn-custom{
-    background:red;
-    border:none;
+background:red;
+border:none;
 }
 
 .btn-custom:hover{
-    background:#cc0000;
+background:#cc0000;
 }
 
 /* Responsive */
+
 @media(max-width:768px){
-    .sidebar{
-        width:200px;
-    }
-    .main{
-        margin-left:200px;
-    }
+
+.sidebar{
+width:200px;
+}
+
+.main{
+margin-left:200px;
+}
+
 }
 
 @media(max-width:576px){
-    .sidebar{
-        position:relative;
-        width:100%;
-        height:auto;
-    }
-    .main{
-        margin-left:0;
-    }
+
+.sidebar{
+position:relative;
+width:100%;
+height:auto;
+}
+
+.main{
+margin-left:0;
+}
+
 }
 
 </style>
@@ -122,73 +149,98 @@ body{
 <body>
 
 <!-- Sidebar -->
-<div class="sidebar">
-    <img src="../assets/images/logo.webp" class="logo">
 
-    <a href="dashboard.php"><i class="fa fa-home"></i> Home</a>
-    <a href="add_user.php" class="active"><i class="fa fa-user-plus"></i> Add User</a>
-    <a href="add_product.php"><i class="fa fa-box"></i> Add Product</a>
-    <a href="../login.php"><i class="fa fa-sign-out-alt"></i> Logout</a>
+<div class="sidebar">
+
+<img src="../assets/images/logo.webp" class="logo">
+
+<a href="dashboard.php">
+<i class="fa fa-home"></i> Home
+</a>
+
+<a href="add_user.php" class="active">
+<i class="fa fa-user-plus"></i> Add User
+</a>
+
+<a href="add_product.php">
+<i class="fa fa-box"></i> Add Product
+</a>
+
+<a href="products.php">
+<i class="fa fa-box-open"></i> View Products
+</a>
+
+<a href="../login.php">
+<i class="fa fa-sign-out-alt"></i> Logout
+</a>
+
 </div>
 
+
 <!-- Main Content -->
+
 <div class="main">
 
-    <div class="container-fluid">
+<div class="topbar">
+<h4>Add New User</h4>
+</div>
 
-        <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-8 col-sm-12">
+<div class="container-fluid">
 
-                <div class="form-card">
+<div class="row justify-content-center">
 
-                    <h4 class="mb-4 text-center">Add New User</h4>
+<div class="col-lg-6">
 
-                    <?php if(isset($success)) { ?>
-                        <div class="alert alert-success">
-                            <?php echo $success; ?>
-                        </div>
-                    <?php } ?>
+<div class="form-card">
 
-                    <form method="POST">
+<?php if(isset($success)){ ?>
+<div class="alert alert-success">
+<?php echo $success; ?>
+</div>
+<?php } ?>
 
-                        <div class="mb-3">
-                            <label class="form-label">Full Name</label>
-                            <input type="text" name="name" class="form-control" required>
-                        </div>
+<form method="POST">
 
-                        <div class="mb-3">
-                            <label class="form-label">Email Address</label>
-                            <input type="email" name="email" class="form-control" required>
-                        </div>
+<div class="mb-3">
+<label class="form-label">Full Name</label>
+<input type="text" name="name" class="form-control" required>
+</div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
+<div class="mb-3">
+<label class="form-label">Email Address</label>
+<input type="email" name="email" class="form-control" required>
+</div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Select Role</label>
-                            <select name="role" class="form-select" required>
-                                <option value="">Choose Role</option>
-                                <option value="manager">Manager</option>
-                                <option value="sales">Sales</option>
-                            </select>
-                        </div>
+<div class="mb-3">
+<label class="form-label">Password</label>
+<input type="password" name="password" class="form-control" required>
+</div>
 
-                        <button name="add" class="btn btn-custom w-100 text-white">
-                            <i class="fa fa-plus"></i> Add User
-                        </button>
+<div class="mb-3">
+<label class="form-label">Select Role</label>
+<select name="role" class="form-select" required>
+<option value="">Choose Role</option>
+<option value="manager">Manager</option>
+<option value="sales">Sales</option>
+</select>
+</div>
 
-                    </form>
+<button name="add" class="btn btn-custom w-100 text-white">
+<i class="fa fa-plus"></i> Add User
+</button>
 
-                </div>
+</form>
 
-            </div>
-        </div>
+</div>
 
-    </div>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 </body>
 </html>
+

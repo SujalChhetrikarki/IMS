@@ -19,37 +19,42 @@ if(!isset($_SESSION['role']) || $_SESSION['role']!="admin"){
 
 body{
     margin:0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family:'Segoe UI', sans-serif;
     background:#f4f6f9;
 }
 
 /* Sidebar */
+
 .sidebar{
     height:100vh;
     width:250px;
     position:fixed;
-    background:#fff;
+    background:#111;
     padding-top:20px;
-    transition:0.3s;
 }
 
 .sidebar .logo{
     width:120px;
     display:block;
-    margin:0 auto 20px;
+    margin:0 auto 25px;
 }
 
 .sidebar a{
     padding:12px 20px;
     display:block;
-    color:#ccc;
+    color:#fff;
     text-decoration:none;
     font-size:15px;
     transition:0.3s;
 }
 
 .sidebar a:hover{
-    background:red;
+    background:#e60000;
+    color:#fff;
+}
+
+.sidebar a.active{
+    background:#ff0000;
     color:#fff;
 }
 
@@ -58,12 +63,14 @@ body{
 }
 
 /* Main Content */
+
 .main{
     margin-left:250px;
     padding:20px;
 }
 
 /* Top Navbar */
+
 .topbar{
     background:#fff;
     padding:15px 20px;
@@ -72,10 +79,11 @@ body{
     margin-bottom:20px;
 }
 
-/* Cards */
+/* Dashboard Cards */
+
 .dashboard-card{
     background:#fff;
-    padding:20px;
+    padding:25px;
     border-radius:12px;
     box-shadow:0 4px 15px rgba(0,0,0,0.08);
     text-align:center;
@@ -93,24 +101,31 @@ body{
 }
 
 /* Responsive */
+
 @media(max-width:768px){
-    .sidebar{
-        width:200px;
-    }
-    .main{
-        margin-left:200px;
-    }
+
+.sidebar{
+    width:200px;
+}
+
+.main{
+    margin-left:200px;
+}
+
 }
 
 @media(max-width:576px){
-    .sidebar{
-        position:relative;
-        width:100%;
-        height:auto;
-    }
-    .main{
-        margin-left:0;
-    }
+
+.sidebar{
+    position:relative;
+    width:100%;
+    height:auto;
+}
+
+.main{
+    margin-left:0;
+}
+
 }
 
 </style>
@@ -119,52 +134,69 @@ body{
 <body>
 
 <!-- Sidebar -->
+
 <div class="sidebar">
 
-    <img src="../assets/images/logo.webp" class="logo">
+<img src="../assets/images/logo.webp" class="logo">
 
-    <a href="dashboard.php"><i class="fa fa-home"></i> Home</a>
-    <a href="add_user.php"><i class="fa fa-user-plus"></i> Add User</a>
-    <a href="add_product.php"><i class="fa fa-box"></i> Add Product</a>
-    <a href="products.php"><i class="fa fa-box-open"></i> View Products</a>
-    <a href="../login.php"><i class="fa fa-sign-out-alt"></i> Logout</a>
+<a href="dashboard.php" class="active">
+<i class="fa fa-home"></i> Home
+</a>
+
+<a href="add_user.php">
+<i class="fa fa-user-plus"></i> Add User
+</a>
+
+<a href="add_product.php">
+<i class="fa fa-box"></i> Add Product
+</a>
+
+<a href="products.php">
+<i class="fa fa-box-open"></i> View Products
+</a>
+
+<a href="../logout.php">
+<i class="fa fa-sign-out-alt"></i> Logout
+</a>
 
 </div>
 
+
 <!-- Main Content -->
+
 <div class="main">
 
-    <div class="topbar">
-        <h4>Welcome Admin 👋</h4>
-    </div>
+<div class="topbar">
+<h4>Welcome Admin 👋</h4>
+</div>
 
-    <div class="row g-4">
+<div class="row g-4">
 
-        <div class="col-md-4">
-            <div class="dashboard-card">
-                <i class="fa fa-users"></i>
-                <h5>Manage Users</h5>
-                <p>Add and manage system users</p>
-            </div>
-        </div>
+<div class="col-md-4">
+<div class="dashboard-card">
+<i class="fa fa-users"></i>
+<h5>Manage Users</h5>
+<p>Add and manage system users</p>
+</div>
+</div>
 
-        <div class="col-md-4">
-            <div class="dashboard-card">
-                <i class="fa fa-box-open"></i>
-                <h5>Manage Products</h5>
-                <p>Add and update inventory</p>
-            </div>
-        </div>
+<div class="col-md-4">
+<div class="dashboard-card">
+<i class="fa fa-box-open"></i>
+<h5>Manage Products</h5>
+<p>Add and update inventory</p>
+</div>
+</div>
 
-        <div class="col-md-4">
-            <div class="dashboard-card">
-                <i class="fa fa-chart-line"></i>
-                <h5>Reports</h5>
-                <p>View system analytics</p>
-            </div>
-        </div>
+<div class="col-md-4">
+<div class="dashboard-card">
+<i class="fa fa-chart-line"></i>
+<h5>Reports</h5>
+<p>View system analytics</p>
+</div>
+</div>
 
-    </div>
+</div>
 
 </div>
 
