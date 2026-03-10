@@ -31,52 +31,51 @@ if(isset($_POST['add'])){
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
 <style>
-
 body{
-margin:0;
-font-family:'Segoe UI', sans-serif;
-background:#f4f6f9;
+    margin:0;
+    font-family:'Segoe UI', sans-serif;
+    background:#f4f6f9;
 }
 
-/* Sidebar - Same as Admin Dashboard */
+/* Sidebar */
 
 .sidebar{
-height:100vh;
-width:250px;
-position:fixed;
-background:#fff;
-padding-top:20px;
-border-right:1px solid #ddd;
+    height:100vh;
+    width:250px;
+    position:fixed;
+    background:#111;
+    padding-top:20px;
 }
 
 .sidebar .logo{
-width:120px;
-display:block;
-margin:0 auto 20px;
+    width:120px;
+    display:block;
+    margin:0 auto 25px;
 }
 
 .sidebar a{
-padding:12px 20px;
-display:block;
-color:#555;
-text-decoration:none;
-font-size:15px;
-transition:0.3s;
-}
-
-.sidebar a i{
-margin-right:10px;
+    padding:12px 20px;
+    display:block;
+    color:#fff;
+    text-decoration:none;
+    font-size:15px;
+    transition:0.3s;
 }
 
 .sidebar a:hover{
-background:red;
-color:#fff;
+    background:#e60000;
+    color:#fff;
 }
 
 .sidebar a.active{
-background:red;
-color:#fff;
+    background:#ff0000;
+    color:#fff;
 }
+
+.sidebar a i{
+    margin-right:10px;
+}
+
 
 /* Main Content */
 

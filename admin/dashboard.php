@@ -16,7 +16,6 @@ if(!isset($_SESSION['role']) || $_SESSION['role']!="admin"){
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
 <style>
-
 body{
     margin:0;
     font-family:'Segoe UI', sans-serif;
@@ -61,6 +60,7 @@ body{
 .sidebar a i{
     margin-right:10px;
 }
+
 
 /* Main Content */
 
