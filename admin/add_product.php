@@ -177,7 +177,7 @@ padding:25px;
 <img src="../assets/images/logo.webp" class="logo">
 
 <a href="dashboard.php">
-<i class="fa fa-home"></i> Dashboard
+<i class="fa fa-home"></i> Home
 </a>
 
 <a href="add_user.php">
