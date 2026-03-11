@@ -176,7 +176,7 @@ background:#198754;
 </a>
 
 <a href="products.php" class="active">
-<i class="fa fa-box"></i> Products
+<i class="fa fa-box"></i> Add Products
 </a>
 
 <a href="../logout.php">
