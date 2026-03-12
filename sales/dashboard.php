@@ -450,7 +450,6 @@ No sales yet
 </tr>
 
 <?php endif; ?>
-
 </tbody>
 
 </table>
@@ -458,8 +457,6 @@ No sales yet
 </div>
 
 </div>
-
-
 </div>
 </div>
 </div>
