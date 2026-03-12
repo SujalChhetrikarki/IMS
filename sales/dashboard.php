@@ -97,7 +97,6 @@ $stmt->execute();
 
 $msg="Sale completed";
 }
-
 }
 /* =========================
    FETCH PRODUCTS
