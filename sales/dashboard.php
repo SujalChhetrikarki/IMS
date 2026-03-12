@@ -248,9 +248,7 @@ Logged in as Sales
 <div class="card mt-4 p-3">
 
 <h5 class="mb-3">
-
 Products
-
 </h5>
 
 <div class="table-responsive">
