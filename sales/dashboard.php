@@ -66,7 +66,6 @@ WHERE id=$product_id
 if(!$product){
 $msg="Invalid product";
 }
-
 elseif($qty > $product['quantity']){
 $msg="Not enough stock";
 }
