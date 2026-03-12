@@ -70,9 +70,7 @@ $msg="Invalid product";
 elseif($qty > $product['quantity']){
 $msg="Not enough stock";
 }
-
 else{
-
 $conn->query("
 UPDATE products
 SET quantity = quantity-$qty
