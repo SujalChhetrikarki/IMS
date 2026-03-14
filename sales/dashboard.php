@@ -75,7 +75,6 @@ UPDATE products
 SET quantity = quantity-$qty
 WHERE id=$product_id
 ");
-
 $stmt=$conn->prepare("
 INSERT INTO sales
 (product_id,quantity,sold_price,sold_by)
