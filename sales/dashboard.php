@@ -62,7 +62,6 @@ SELECT quantity,price
 FROM products 
 WHERE id=$product_id
 ")->fetch_assoc();
-
 if(!$product){
 $msg="Invalid product";
 }
