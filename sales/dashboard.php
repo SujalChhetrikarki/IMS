@@ -42,12 +42,9 @@ if (isset($_GET['action'], $_GET['id'])) {
         VALUES ($id,$old_qty,$new_qty,$user_id)
         ");
     }
-
     header("Location: dashboard.php");
     exit;
-}
-
-
+} 
 /* =========================
    HANDLE SALE
 ========================= */
