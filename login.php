@@ -6,7 +6,6 @@ if(isset($_POST['login'])){
 
 $email = $_POST['email'];
 $password = md5($_POST['password']);
-
 $sql = "SELECT * FROM users WHERE email='$email' AND password='$password'";
 $result = $conn->query($sql);
 
